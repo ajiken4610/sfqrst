@@ -3,6 +3,11 @@
   .h1 チケットの情報
   UiTextfield.w-100(v-model="data.name") 名前
   UiTextfield.w-100(v-model.number="data.age", inputType="number") 年齢
+  UiTextfield.w-100(
+    v-if="isToday()",
+    v-model.number="data.temp",
+    inputType="number"
+  ) 体温
   .d-flex
     .ms-auto
       UiButton.me-1(outlined, @click="goBack") キャンセル

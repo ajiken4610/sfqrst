@@ -5,4 +5,6 @@ export interface UserData {
   age: null | number;
   stamps: { [key: string]: true };
   temp: null | number;
+  used?: true;
+  reuseable?: true;
 }

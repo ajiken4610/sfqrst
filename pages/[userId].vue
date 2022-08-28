@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div(ref="wrapper")
   img.d-block.mx-auto(:src="ticketQR")
   .text-center.display-1 ようこそ
   .text-muted.text-center {{ data.name }}さん
@@ -13,8 +13,22 @@ div
   .text-center.text-muted(v-else) 所持しているスタンプはありません。
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 import QRCode from "qrcode";
+const data = await useUserData();
+const wrapper = ref<HTMLDivElement>();
+if (!data.value.temp && isToday()) {
+  onMounted(() => {
+    const waitUntilAppend = () => {
+      if (wrapper.value.matches("body div")) {
+        useRouter().push("/edit");
+      } else {
+        requestAnimationFrame(waitUntilAppend);
+      }
+    };
+    waitUntilAppend();
+  });
+}
 const id = useRoute().params["userId"].toString();
 const ticketQR = ref("");
 QRCode.toDataURL("https://sfqrst.web.app/" + id, (err, url: string) => {
@@ -22,7 +36,7 @@ QRCode.toDataURL("https://sfqrst.web.app/" + id, (err, url: string) => {
   ticketQR.value = url;
 });
 useUserId().value = id;
-const data = await useUserData();
+
 const stamps = await useStamps();
 </script>
 
