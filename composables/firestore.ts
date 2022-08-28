@@ -1,6 +1,7 @@
-import { doc, onSnapshot, updateDoc } from "@firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "@firebase/firestore";
 import type { Ref } from "vue";
 import type { UserData } from "./UserData";
+import type { StampData } from "./useStamps";
 
 const db = useDB();
 
@@ -31,3 +32,14 @@ export const useUserData = () => {
 
 export const saveUserData = (data: Partial<UserData>) =>
   updateDoc(doc(db, "user", useUserId().value), data);
+
+export const getStampData = async (id: string) => {
+  const stampData = useStamps();
+  if (id in stampData) {
+    return stampData[id];
+  } else {
+    return (stampData[id] = (
+      await getDoc(doc(db, "stamp", id))
+    ).data() as StampData);
+  }
+};

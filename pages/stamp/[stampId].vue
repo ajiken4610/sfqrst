@@ -1,8 +1,22 @@
 <template lang="pug">
-div
+div(ref="wrapper")
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 definePageMeta({ requireId: true });
-await saveUserData({ ["stamps." + useRoute().params["stampId"]]: true });
+const id = useRoute().params["stampId"].toString();
+await saveUserData({ ["stamps." + id]: true });
+
+const wrapper = ref<HTMLDivElement>();
+onMounted(() => {
+  const waitUntilAppend = () => {
+    if (wrapper.value.matches("body div")) {
+      useRouter().back();
+    } else {
+      requestAnimationFrame(waitUntilAppend);
+    }
+  };
+  waitUntilAppend();
+});
+showToast("スタンプを取得しました");
 </script>

@@ -1,4 +1,4 @@
-export class UserData {
+export interface UserData {
   name: null | string;
   owner: string;
   type: string;

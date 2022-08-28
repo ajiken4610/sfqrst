@@ -1,5 +1,5 @@
 <template lang="pug">
-.edit-field-wrapper {{ data }}
+.edit-field-wrapper
   .h1 チケットの情報
   UiTextfield.w-100(v-model="data.name") 名前
   UiTextfield.w-100(v-model.number="data.age", inputType="number") 年齢
