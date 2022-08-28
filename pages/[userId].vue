@@ -1,8 +1,7 @@
 <template lang="pug">
 div(ref="wrapper")
   img.d-block.mx-auto(:src="ticketQR")
-  .text-center.display-1 ようこそ
-  .text-muted.text-center {{ data.name }}さん
+  h4.text-muted.text-center {{ data.name }}さん
   hr
   UiGrid(v-if="Object.keys(data.stamps).length")
     UiGridCell
@@ -15,6 +14,7 @@ div(ref="wrapper")
 
 <script async setup lang="ts">
 import QRCode from "qrcode";
+useUserId().value = useRoute().params["userId"].toString();
 const data = await useUserData();
 const wrapper = ref<HTMLDivElement>();
 if (!data.value.temp && isToday()) {

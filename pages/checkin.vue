@@ -1,14 +1,15 @@
 <template lang="pug">
 div(ref="wrapper")
   div(v-if="data")
-    h1(v-if="!data.used || data.reuseable") このチケットは未使用です。
-    h1(v-else) このチケットは使用済みです。
+    h1(v-if="data.reuseable") このチケットは再入場可能です。
+    h1(v-else-if="data.used") このチケットは使用済みです。
+    h1(v-else) このチケットは未使用です。
     hr
     h2 体温: {{ data.temp || "未入力" }}
     h2 名前: {{ data.name || "未入力" }}
     h2 年齢: {{ data.age || "未入力" }}
     hr
-    h2 判定: {{ judge() }}
+    h2 判定: {{ judgeText() }}
     .d-flex
       UiButton.h4(@click="scanQR", outlined) QRをスキャンする
       UiButton.ms-auto.h4(@click="checkin", raised) 入場！
@@ -16,7 +17,7 @@ div(ref="wrapper")
 
 <script setup lang="ts">
 import type { UserData } from "~~/composables/UserData";
-
+import { useConfirm } from "balm-ui";
 definePageMeta({
   requireSAccount: true,
 });
@@ -46,10 +47,23 @@ const judge = () =>
   (!data.value.used || data.value.reuseable) &&
   (data.value.temp || 1000) < 37.2 &&
   data.value.age &&
-  data.value.name
-    ? "入場可能"
-    : "入場不可";
+  data.value.name;
+const judgeText = () => (judge() ? "入場可能" : "入場不可");
 const checkin = async () => {
-  await saveUserData({ used: true }, id);
+  if (!judge()) {
+    useConfirm()("条件を満たしていませんが入場しますか？").then(
+      async (result: void) => {
+        if (typeof result === "boolean") {
+          if (result) {
+            await saveUserData({ used: true, reuseable: null }, id);
+            scanQR();
+          }
+        }
+      }
+    );
+  } else {
+    await saveUserData({ used: true, reuseable: null }, id);
+    scanQR();
+  }
 };
 </script>
