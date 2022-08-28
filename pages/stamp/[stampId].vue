@@ -6,7 +6,7 @@ div(ref="wrapper")
 definePageMeta({ requireId: true });
 const id = useRoute().params["stampId"].toString();
 await saveUserData({ ["stamps." + id]: true });
-
+await getStampData(id);
 const wrapper = ref<HTMLDivElement>();
 onMounted(() => {
   const waitUntilAppend = () => {
