@@ -8,11 +8,14 @@ export const useUserData = () => {
   const ret = ref<UserData>();
   return new Promise<Ref<UserData>>((resolve) => {
     onSnapshot(doc(db, "user", useUserId()), (snapshot) => {
-      ret.value = (snapshot.data() || {
-        owner: "Invalid",
-        type: "Invalid",
-        stamps: {},
-      }) as UserData;
+      ret.value = {
+        ...{
+          owner: "Invalid",
+          type: "Invalid",
+          stamps: {},
+        },
+        ...snapshot.data(),
+      } as UserData;
       resolve(ret);
     });
   });

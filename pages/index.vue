@@ -16,7 +16,6 @@ if (!QrScanner.hasCamera()) {
 let scanner: QrScanner;
 onMounted(() => {
   const waitUntilAppend = () => {
-    console.log(wrapper.value.matches("body div"));
     if (wrapper.value.matches("body div")) {
       console.log("added");
       scanner = new QrScanner(
@@ -58,8 +57,8 @@ onUnmounted(() => {
 }
 .video-wrapper {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 90vw;
+  height: 90vh;
   overflow: hidden;
 }
 .video-wrapper > .video,

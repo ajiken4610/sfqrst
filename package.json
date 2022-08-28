@@ -10,6 +10,7 @@
     "@prettier/plugin-pug": "^2.2.0",
     "@tsconfig/strictest": "^1.0.1",
     "balm-ui": "^10.11.0",
+    "bootstrap": "^5.2.0",
     "firebase": "^9.9.3",
     "firebaseui": "^6.0.1",
     "nuxt": "3.0.0-rc.8",
