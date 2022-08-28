@@ -36,3 +36,19 @@ import { getFirestore } from "firebase/firestore";
 const db = getFirestore(app);
 
 export const useDB = () => db;
+let authLoaded = false;
+export const isLoggedIn = (): Promise<boolean> => {
+  if (authLoaded) {
+    return new Promise((resolve) => {
+      resolve(!!auth.currentUser);
+    });
+  } else {
+    return new Promise((resolve) => {
+      let unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe();
+        resolve(!!user);
+      });
+      authLoaded = true;
+    });
+  }
+};

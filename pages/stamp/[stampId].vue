@@ -11,6 +11,7 @@ const wrapper = ref<HTMLDivElement>();
 onMounted(() => {
   const waitUntilAppend = () => {
     if (wrapper.value.matches("body div")) {
+      showToast("体温を入力してください");
       useRouter().back();
     } else {
       requestAnimationFrame(waitUntilAppend);
