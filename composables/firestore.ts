@@ -34,12 +34,5 @@ export const saveUserData = (data: Partial<UserData>) =>
   updateDoc(doc(db, "user", useUserId().value), data);
 
 export const getStampData = async (id: string) => {
-  const stampData = useStamps();
-  if (id in stampData) {
-    return stampData[id];
-  } else {
-    return (stampData[id] = (
-      await getDoc(doc(db, "stamp", id))
-    ).data() as StampData);
-  }
+  return (await getDoc(doc(db, "stamp", id))).data() as StampData;
 };

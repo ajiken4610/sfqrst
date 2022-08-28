@@ -3,7 +3,15 @@ export interface StampData {
   description: string;
 }
 const stamps = reactive(JSON.parse(localStorage.getItem("stamps") || "{}"));
-export default () => stamps as { [key: string]: StampData };
+
+export default async () => {
+  for (const key in (await useUserData()).value.stamps) {
+    if (!(key in stamps)) {
+      stamps[key] = await getStampData(key);
+    }
+  }
+  return stamps as { [key: string]: StampData };
+};
 watchEffect(() => {
   localStorage.setItem("stamps", JSON.stringify(stamps));
 });
