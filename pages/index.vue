@@ -28,10 +28,10 @@ onMounted(() => {
             ))
           ) {
             scanner.stop();
-            useRouter().replace({
-              path: "/" + matchResult[1],
-              query: useRoute().query,
-            });
+            const redirect = useRoute().query["redirect"]?.toString();
+            const uri =
+              (redirect ? redirect + "?q=" : "") + "/" + matchResult[1];
+            useRouter().replace(uri);
           } else {
             console.log("error");
           }

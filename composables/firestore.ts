@@ -7,13 +7,14 @@ const db = useDB();
 
 const userDatas: { [key: string]: Ref<UserData> } = {};
 
-export const useUserData = () => {
-  if (userDatas[useUserId().value]) {
-    return (async () => userDatas[useUserId().value])();
+export const useUserData = (id?: string) => {
+  const userId = id || useUserId().value;
+  if (userDatas[userId]) {
+    return (async () => userDatas[userId])();
   } else {
     const ret = ref<UserData>();
     return new Promise<Ref<UserData>>((resolve) => {
-      onSnapshot(doc(db, "user", useUserId().value), (snapshot) => {
+      onSnapshot(doc(db, "user", userId), (snapshot) => {
         ret.value = {
           ...{
             owner: "Invalid",
@@ -23,15 +24,15 @@ export const useUserData = () => {
           },
           ...snapshot.data(),
         } as UserData;
-        userDatas[useUserId().value] = ret;
+        userDatas[userId] = ret;
         resolve(ret);
       });
     });
   }
 };
 
-export const saveUserData = (data: Partial<UserData>) =>
-  updateDoc(doc(db, "user", useUserId().value), data);
+export const saveUserData = (data: Partial<UserData>, id?: string) =>
+  updateDoc(doc(db, "user", id || useUserId().value), data);
 
 export const getStampData = async (id: string) => {
   return (await getDoc(doc(db, "stamp", id))).data() as StampData;
