@@ -1,10 +1,16 @@
 <template lang="pug">
 div
-  UiTopAppBar(navIcon="false", contentSelector="#content") サレ祭チケット管理
+  UiTopAppBar(
+    v-if="useRoute().path !== '/'",
+    :navIcon="false",
+    contentSelector="#content"
+  ) サレ祭チケット管理
     template(#toolbar="{ toolbarItemClass }")
       NuxtLink(to="/")
         UiIconButton(:class="toolbarItemClass", icon="qr_code")
-  #content.container
+      NuxtLink.float-end(to="/edit", v-if="useUserId().value")
+        UiIconButton(:class="toolbarItemClass", icon="edit")
+  #content(:class="{ container: useRoute().path !== '/' }")
     NuxtPage
 </template>
 
@@ -36,7 +42,7 @@ useFirebaseApp();
 @import "bootstrap/scss/type";
 @import "bootstrap/scss/helpers";
 @import "bootstrap/scss/utilities/api";
-#content {
-  padding: 1rem;
+.container {
+  padding-top: 1rem;
 }
 </style>

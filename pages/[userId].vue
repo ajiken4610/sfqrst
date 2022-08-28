@@ -1,16 +1,13 @@
 <template lang="pug">
 div
-  NuxtLink.float-end(to="/edit")
-    UiIconButton(icon="edit")
-  .text-center.display-1 ようこそ、
-    br
-    | {{ data.name }}さん
+  .text-center.display-1 ようこそ
+  .text-muted.text-center {{ data.name }}さん
   hr
 </template>
 
 <script setup lang="ts">
 const id = useRoute().params["userId"].toString();
-localStorage.setItem("userId", id);
+useUserId().value = id;
 const data = await useUserData();
 </script>
 

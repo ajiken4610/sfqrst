@@ -3,6 +3,6 @@ export class UserData {
   owner: string;
   type: string;
   age: null | number;
-  stamps: { [key: string]: string };
+  stamps: { [key: string]: true };
   temp: null | number;
 }

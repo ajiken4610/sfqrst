@@ -2,11 +2,12 @@
 .video-wrapper(ref="wrapper")
   .video
     video(ref="videoElement")
-    .region(ref="overlay")
+    .region.text-center.text-white(ref="overlay") QRコードを探しています...
 </template>
 
 <script setup lang="ts">
 import QrScanner from "qr-scanner";
+// console.log(window.innerHeight);
 const wrapper = ref<HTMLDivElement>();
 const videoElement = ref<HTMLVideoElement>();
 const overlay = ref<HTMLDivElement>();
@@ -17,7 +18,6 @@ let scanner: QrScanner;
 onMounted(() => {
   const waitUntilAppend = () => {
     if (wrapper.value.matches("body div")) {
-      console.log("added");
       scanner = new QrScanner(
         videoElement.value,
         (result) => {
@@ -57,8 +57,8 @@ onUnmounted(() => {
 }
 .video-wrapper {
   position: relative;
-  width: 90vw;
-  height: 90vh;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
 .video-wrapper > .video,
