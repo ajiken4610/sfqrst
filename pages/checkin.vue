@@ -1,7 +1,7 @@
 <template lang="pug">
 div(ref="wrapper")
   .full(v-if="data", :class="[judge() ? 'bg-green' : 'bg-red']")
-    .top-50.start-50.translate-middle
+    .top-50.start-50.translate-middle.w-100
       .display-1.text-center {{ judgeText() }}
       UiIcon.icon.d-block.text-center {{ judge() ? "keyboard_double_arrow_up" : "error_outline" }}
       .display-1.text-center(v-if="reason()") {{ reason() }}
@@ -111,7 +111,7 @@ const reason = () => {
       ) {
         return "";
       } else {
-        return "午前中に既に入場しています。";
+        return "午前中に既に入場しています";
       }
     } else {
       // 午後に入場
