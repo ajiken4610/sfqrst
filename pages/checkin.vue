@@ -1,23 +1,38 @@
 <template lang="pug">
 div(ref="wrapper")
-  div(v-if="data")
-    h1(v-if="data.reuseable") このチケットは再入場可能です。
-    h1(v-else-if="data.used") このチケットは使用済みです。
-    h1(v-else) このチケットは未使用です。
-    hr
-    h2 体温: {{ data.temp || "未入力" }}
-    h2 名前: {{ data.name || "未入力" }}
-    h2 年齢: {{ data.age || "未入力" }}
-    hr
-    h2 判定: {{ judgeText() }}
-    .d-flex
-      UiButton.h4(@click="scanQR", outlined) QRをスキャンする
-      UiButton.ms-auto.h4(@click="checkin", raised) 入場！
+  .full(v-if="data", :class="[judge() ? 'bg-green' : 'bg-red']")
+    .top-50.start-50.translate-middle
+      .display-1.text-center {{ judgeText() }}
+      UiIcon.icon.d-block.text-center {{ judge() ? "keyboard_double_arrow_up" : "error_outline" }}
+      .display-1.text-center(v-if="reason()") {{ reason() }}
 </template>
+
+<style scoped lang="scss">
+.full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+}
+.full > * {
+  position: absolute;
+}
+.bg-green {
+  background-color: green;
+}
+.bg-red {
+  background-color: red;
+}
+.icon {
+  font-size: 50vmin;
+}
+</style>
 
 <script setup lang="ts">
 import type { UserData } from "~~/composables/UserData";
-import { useConfirm } from "balm-ui";
+
 definePageMeta({
   requireSAccount: true,
 });
@@ -46,24 +61,40 @@ if (useRoute().query["q"]) {
 const judge = () =>
   (!data.value.used || data.value.reuseable) &&
   (data.value.temp || 1000) < 37.2 &&
-  data.value.age &&
   data.value.name;
 const judgeText = () => (judge() ? "入場可能" : "入場不可");
 const checkin = async () => {
-  if (!judge()) {
-    useConfirm()("条件を満たしていませんが入場しますか？").then(
-      async (result: void) => {
-        if (typeof result === "boolean") {
-          if (result) {
-            await saveUserData({ used: true, reuseable: null }, id);
-            scanQR();
-          }
-        }
-      }
-    );
-  } else {
-    await saveUserData({ used: true, reuseable: null }, id);
+  await saveUserData({ used: true, reuseable: null }, id);
+  setTimeout(() => {
     scanQR();
+  }, 2000);
+};
+const reason = () => {
+  if (!(!data.value.used || data.value.reuseable)) {
+    return "チケットは使用済みです";
+  } else if (!data.value.temp) {
+    return "体温を入力してください";
+  } else if (!((data.value.temp || 1000) < 37.2)) {
+    return "体温が不正です";
+  } else if (!data.value.name) {
+    return "名前を入力してください";
+  } else {
+    return "";
   }
 };
+if (data.value) {
+  if (judge()) {
+    console.log("入場");
+    speechSynthesis.speak(
+      new SpeechSynthesisUtterance(data.value.name + "さん、ようこそ")
+    );
+    checkin();
+  } else {
+    console.log("入場不可");
+    speechSynthesis.speak(new SpeechSynthesisUtterance(reason()));
+    setTimeout(() => {
+      scanQR();
+    }, 2000);
+  }
+}
 </script>

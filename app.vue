@@ -2,7 +2,7 @@
 div
   NuxtLoadingIndicator(color="#ff0000")
   UiTopAppBar(
-    v-if="useRoute().path !== '/'",
+    v-if="showAppTopBar",
     :navIcon="false",
     contentSelector="#content"
   ) サレ祭チケット管理
@@ -11,13 +11,16 @@ div
         UiIconButton(:class="toolbarItemClass", icon="qr_code")
       NuxtLink.float-end(to="/edit", v-if="useUserId().value")
         UiIconButton(:class="toolbarItemClass", icon="edit")
-  #content(v-show="$route.path !== '/'")
+  #content(v-show="showAppTopBar")
   div(:class="{ container: $route.path !== '/' }")
     NuxtPage
 </template>
 
 <script setup lang="ts">
 useFirebaseApp();
+const showAppTopBar = computed(() => {
+  return !{ "/": true, "/checkin": true }[useRoute().path];
+});
 </script>
 
 <style lang="scss">

@@ -2,7 +2,7 @@
 .video-wrapper(ref="wrapper")
   .video
     video(ref="videoElement")
-    .region.text-center.text-white(ref="overlay") 
+    .region.h2.text-center.text-white(ref="overlay") 
       | QRコードを探しています...
 </template>
 

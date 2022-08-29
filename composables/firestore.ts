@@ -18,7 +18,7 @@ export const useUserData = (id?: string) => {
         ret.value = {
           ...{
             owner: "Invalid",
-            name: "Unknown",
+            name: "",
             type: "Invalid",
             stamps: {},
           },

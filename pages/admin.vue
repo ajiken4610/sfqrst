@@ -25,7 +25,7 @@ definePageMeta({
 });
 await isLoggedIn();
 
-if (!useAuth().currentUser.emailVerified) {
+if (!useAuth().currentUser?.emailVerified) {
   sendEmailVerification(useAuth().currentUser, {
     url: "https://sfqrst.web.app/admin",
   }).then(() => {
