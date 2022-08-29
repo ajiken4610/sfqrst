@@ -58,20 +58,65 @@ if (useRoute().query["q"]) {
     waitUntilAppend();
   });
 }
-const judge = () =>
-  (!data.value.used || data.value.reuseable) &&
-  (data.value.temp || 1000) < 37.2 &&
-  data.value.name;
+const judge = () => {
+  let reuseable = false;
+  if (data.value.used) {
+    // @ts-ignore
+    const usedDate = new Date(data.value.used.seconds * 1000);
+    const now = new Date();
+    if (
+      usedDate.getHours() < 12 ||
+      (usedDate.getHours() === 12 && usedDate.getMinutes() < 30)
+    ) {
+      // 午前中に入場
+      if (
+        data.value.reuseable &&
+        (now.getHours() < 12 ||
+          (now.getHours() === 12 && now.getMinutes() < 30))
+      ) {
+        reuseable = true;
+      }
+    } else {
+      // 午後に入場
+      reuseable = data.value.reuseable;
+    }
+  }
+  return (
+    (!data.value.used || reuseable) &&
+    (data.value.temp || 1000) < 37.2 &&
+    data.value.name
+  );
+};
 const judgeText = () => (judge() ? "入場可能" : "入場不可");
 const checkin = async () => {
-  await saveUserData({ used: true, reuseable: null }, id);
+  await saveUserData({ used: new Date(), reuseable: null }, id);
   setTimeout(() => {
     scanQR();
   }, 2000);
 };
 const reason = () => {
-  if (!(!data.value.used || data.value.reuseable)) {
-    return "チケットは使用済みです";
+  if (data.value.used) {
+    // @ts-ignore
+    const usedDate = new Date(data.value.used.seconds * 1000);
+    const now = new Date();
+    if (
+      usedDate.getHours() < 12 ||
+      (usedDate.getHours() === 12 && usedDate.getMinutes() < 30)
+    ) {
+      // 午前中に入場
+      if (
+        data.value.reuseable &&
+        (now.getHours() < 12 ||
+          (now.getHours() === 12 && now.getMinutes() < 30))
+      ) {
+        return "";
+      } else {
+        return "午前中に既に入場しています。";
+      }
+    } else {
+      // 午後に入場
+      return data.value.reuseable ? "" : "チケットは使用済みです";
+    }
   } else if (!data.value.temp) {
     return "体温を入力してください";
   } else if (!((data.value.temp || 1000) < 37.2)) {
@@ -86,7 +131,11 @@ if (data.value) {
   if (judge()) {
     console.log("入場");
     speechSynthesis.speak(
-      new SpeechSynthesisUtterance(data.value.name + "さん、ようこそ")
+      new SpeechSynthesisUtterance(
+        data.value.name +
+          "さん、" +
+          (data.value.reuseable ? "おかえりなさい" : "ようこそ")
+      )
     );
     checkin();
   } else {
