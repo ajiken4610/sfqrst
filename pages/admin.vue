@@ -15,6 +15,11 @@ const buttons = [
     title: "入場管理",
     description: "入場管理するときに使用してください",
   },
+  {
+    link: "/checkout",
+    title: "再入場",
+    description: "再入場印をつける際に使用してください",
+  },
 ];
 </script>
 <script setup lang="ts">

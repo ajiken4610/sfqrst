@@ -109,13 +109,13 @@ const reason = () => {
         (now.getHours() < 12 ||
           (now.getHours() === 12 && now.getMinutes() < 30))
       ) {
-        return "";
+        return "WELCOME BACK!";
       } else {
         return "午前中に既に入場しています";
       }
     } else {
       // 午後に入場
-      return data.value.reuseable ? "" : "チケットは使用済みです";
+      return data.value.reuseable ? "WELCOME BACK!" : "チケットは使用済みです";
     }
   } else if (!data.value.temp) {
     return "体温を入力してください";
