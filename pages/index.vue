@@ -3,5 +3,5 @@ div
   QRReader(:redirect="redirect")
 </template>
 <script setup lang="ts">
-const redirect = useRoute().query["redirect"];
+const redirect = useRoute().query["redirect"]?.toString();
 </script>

@@ -1,5 +1,8 @@
 <template lang="pug">
 div(ref="wrapper")
+  .text-muted.text-center QRコードをかざす際は
+    br
+    | 画面の明るさを最大にしてください。
   img.d-block.mx-auto(:src="ticketQR")
   h4.text-muted.text-center {{ data.name }}さん
   hr
