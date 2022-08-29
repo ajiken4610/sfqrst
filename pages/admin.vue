@@ -20,6 +20,11 @@ const buttons = [
     title: "再入場",
     description: "再入場印をつける際に使用してください",
   },
+  {
+    link: "/input",
+    title: "情報入力",
+    description: "情報入力用端末にて使用してください。",
+  },
 ];
 </script>
 <script setup lang="ts">
