@@ -2,12 +2,12 @@
 .video-wrapper(ref="wrapper")
   .video
     video(ref="videoElement")
-    .region.text-center.text-white(ref="overlay") QRコードを探しています...
+    .region.text-center.text-white(ref="overlay") 
+      | QRコードを探しています...
 </template>
 
 <script setup lang="ts">
 import QrScanner from "qr-scanner";
-// console.log(window.innerHeight);
 const wrapper = ref<HTMLDivElement>();
 const videoElement = ref<HTMLVideoElement>();
 const overlay = ref<HTMLDivElement>();
@@ -61,11 +61,13 @@ onUnmounted(() => {
   height: 100vh;
   overflow: hidden;
 }
-.video-wrapper > .video,
-.video-wrapper.region {
+.video-wrapper > .video {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+.video-wrapper .region {
+  transform: none !important;
 }
 </style>

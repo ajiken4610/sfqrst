@@ -1,5 +1,6 @@
 <template lang="pug">
 div
+  NuxtLoadingIndicator(color="#ff0000")
   UiTopAppBar(
     v-if="useRoute().path !== '/'",
     :navIcon="false",
@@ -10,7 +11,8 @@ div
         UiIconButton(:class="toolbarItemClass", icon="qr_code")
       NuxtLink.float-end(to="/edit", v-if="useUserId().value")
         UiIconButton(:class="toolbarItemClass", icon="edit")
-  #content(:class="{ container: useRoute().path !== '/' }")
+  #content(v-show="$route.path !== '/'")
+  div(:class="{ container: $route.path !== '/' }")
     NuxtPage
 </template>
 
