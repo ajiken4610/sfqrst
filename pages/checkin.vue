@@ -111,7 +111,9 @@ const reason = () => {
       ) {
         return "WELCOME BACK!";
       } else {
-        return "午前中に既に入場しています";
+        return data.value.reuseable
+          ? "午前中に既に入場しています"
+          : "チケットは使用済みです";
       }
     } else {
       // 午後に入場
