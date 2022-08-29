@@ -129,6 +129,7 @@ const reason = () => {
 };
 if (data.value) {
   if (judge()) {
+    await checkin();
     console.log("入場");
     speechSynthesis.speak(
       new SpeechSynthesisUtterance(
@@ -137,7 +138,6 @@ if (data.value) {
           (data.value.reuseable ? "おかえりなさい" : "ようこそ")
       )
     );
-    checkin();
   } else {
     console.log("入場不可");
     speechSynthesis.speak(new SpeechSynthesisUtterance(reason()));
