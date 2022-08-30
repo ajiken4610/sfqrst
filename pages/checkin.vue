@@ -58,34 +58,32 @@ if (useRoute().query["q"]) {
     waitUntilAppend();
   });
 }
+const calTimeRegion = (date: Date) => {
+  return (
+    date.getDate() * 2 +
+    (date.getHours() < 12 || (date.getHours() === 12 && date.getMinutes() < 30)
+      ? 0
+      : 1)
+  );
+};
 const judge = () => {
-  let reuseable = false;
+  const reuseable = data.value.reuseable;
   if (data.value.used) {
     // @ts-ignore
     const usedDate = new Date(data.value.used.seconds * 1000);
     const now = new Date();
-    if (
-      usedDate.getHours() < 12 ||
-      (usedDate.getHours() === 12 && usedDate.getMinutes() < 30)
-    ) {
-      // 午前中に入場
-      if (
-        data.value.reuseable &&
-        (now.getHours() < 12 ||
-          (now.getHours() === 12 && now.getMinutes() < 30))
-      ) {
-        reuseable = true;
-      }
+
+    const usedTimeRegion = calTimeRegion(usedDate);
+    const nowTimeRegion = calTimeRegion(now);
+    if (reuseable && usedTimeRegion == nowTimeRegion) {
+      // 再入場
+      return (data.value.temp || 1000) < 37.5 && data.value.name;
     } else {
-      // 午後に入場
-      reuseable = data.value.reuseable;
+      // 再入場不可
+      return false;
     }
   }
-  return (
-    (!data.value.used || reuseable) &&
-    (data.value.temp || 1000) < 37.2 &&
-    data.value.name
-  );
+  return (data.value.temp || 1000) < 37.5 && data.value.name;
 };
 const judgeText = () => (judge() ? "入場可能" : "入場不可");
 const checkin = async () => {
@@ -94,30 +92,19 @@ const checkin = async () => {
     scanQR();
   }, 2000);
 };
+
 const reason = () => {
   if (data.value.used) {
     // @ts-ignore
     const usedDate = new Date(data.value.used.seconds * 1000);
     const now = new Date();
-    if (
-      usedDate.getHours() < 12 ||
-      (usedDate.getHours() === 12 && usedDate.getMinutes() < 30)
-    ) {
-      // 午前中に入場
-      if (
-        data.value.reuseable &&
-        (now.getHours() < 12 ||
-          (now.getHours() === 12 && now.getMinutes() < 30))
-      ) {
-        return "WELCOME BACK!";
-      } else {
-        return data.value.reuseable
-          ? "午前中に既に入場しています"
-          : "チケットは使用済みです";
-      }
+    const reuseable = data.value.reuseable;
+    const usedTimeRegion = calTimeRegion(usedDate);
+    const nowTimeRegion = calTimeRegion(now);
+    if (reuseable && usedTimeRegion == nowTimeRegion) {
+      return "WELCOME BACK";
     } else {
-      // 午後に入場
-      return data.value.reuseable ? "WELCOME BACK!" : "チケットは使用済みです";
+      return reuseable ? "再入場期限を過ぎています" : "チケットは使用済みです";
     }
   } else if (!data.value.temp) {
     return "体温を入力してください";
