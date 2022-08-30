@@ -7,8 +7,10 @@ const db = useDB();
 const describes: { [key: string]: () => void } = {};
 const userDatas: { [key: string]: Ref<UserData> } = {};
 watch(useUserId(), (_new, old) => {
-  describes[old]();
-  delete userDatas[old];
+  if (old) {
+    describes[old]();
+    delete userDatas[old];
+  }
 });
 export const useUserData = (id?: string) => {
   const userId = id || useUserId().value;

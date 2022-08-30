@@ -7,4 +7,5 @@ export interface UserData {
   temp: null | number;
   used?: Date;
   reuseable?: true;
+  arriveSchedule?: "am17" | "pm17" | "am18" | "pm18";
 }
