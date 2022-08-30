@@ -5,6 +5,7 @@
   UiTextfield.w-100(v-model.number="data.age", inputType="number") 年齢
   UiSelect.w-100(
     v-model.number="data.arriveSchedule",
+    :disabled="data.isArriveScheduleConstraint",
     :options="[ { label: '選択...', value: ' ', disabled: true }, { label: '17日(土)午前', value: 'am17' }, { label: '17日(土)午後', value: 'pm17' }, { label: '18日(日)午前', value: 'am18' }, { label: '18日(日)午後', value: 'pm18' }, ]"
   ) 来場日時
   UiTextfield.w-100(
