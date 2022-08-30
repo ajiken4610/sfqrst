@@ -4,9 +4,12 @@ import type { UserData } from "./UserData";
 import type { StampData } from "./useStamps";
 
 const db = useDB();
-
+const describes: { [key: string]: () => void } = {};
 const userDatas: { [key: string]: Ref<UserData> } = {};
-
+watch(useUserId(), (_new, old) => {
+  describes[old]();
+  delete userDatas[old];
+});
 export const useUserData = (id?: string) => {
   const userId = id || useUserId().value;
   if (userDatas[userId]) {
@@ -14,7 +17,7 @@ export const useUserData = (id?: string) => {
   } else {
     const ret = ref<UserData>();
     return new Promise<Ref<UserData>>((resolve) => {
-      onSnapshot(doc(db, "user", userId), (snapshot) => {
+      describes[userId] = onSnapshot(doc(db, "user", userId), (snapshot) => {
         ret.value = {
           ...{
             owner: "Invalid",
