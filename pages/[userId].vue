@@ -7,11 +7,10 @@ div(ref="wrapper")
   h4.text-muted.text-center {{ data.name }}さん
   hr
   UiGrid(v-if="Object.keys(data.stamps).length")
-    UiGridCell
-      UiCard(v-for="(_val, key) in data.stamps")
+    UiGridCell(v-for="key of Object.keys(data.stamps).sort()", columns="2")
+      UiCard
         UiCardContent
-          UiCardText.h1 {{ stamps[key].name }}
-          UiCardText.text-muted {{ stamps[key].description }}
+          UiCardText.h1.text-center {{ stamps[key].name }}
   .text-center.text-muted(v-else) 所持しているスタンプはありません。
 </template>
 

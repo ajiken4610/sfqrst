@@ -7,7 +7,6 @@ const db = useDB();
 const describes: { [key: string]: () => void } = {};
 const userDatas: { [key: string]: Ref<UserData> } = {};
 watch(useUserId(), (_new, old) => {
-  console.log(old);
   if (old && typeof describes[old] === "function") {
     describes[old]();
     delete userDatas[old];

@@ -1,6 +1,5 @@
 export interface StampData {
   name: string;
-  description: string;
 }
 const stamps = reactive(JSON.parse(localStorage.getItem("stamps") || "{}"));
 
