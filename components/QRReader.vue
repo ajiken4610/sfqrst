@@ -27,7 +27,7 @@ onMounted(() => {
           let matchResult: RegExpMatchArray;
           if (
             (matchResult = result.data.match(
-              /^https:\/\/sfqrst\.web\.app\/(.*)$/
+              /^https:\/\/sfqrco\.web\.app\/(.*)$/
             ))
           ) {
             scanner.stop();

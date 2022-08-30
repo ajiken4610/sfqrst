@@ -37,7 +37,7 @@ await isLoggedIn();
 
 if (!useAuth().currentUser?.emailVerified) {
   sendEmailVerification(useAuth().currentUser, {
-    url: "https://sfqrst.web.app/admin",
+    url: "https://sfqrco.web.app/admin",
   }).then(() => {
     showToast("認証メールを送信しました。Gmailをご確認ください。");
   });
