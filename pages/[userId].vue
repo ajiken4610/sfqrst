@@ -33,7 +33,7 @@ if (!data.value.temp && isToday()) {
 }
 const id = useRoute().params["userId"].toString();
 const ticketQR = ref("");
-QRCode.toDataURL("https://sfqrst.web.app/" + id, (err, url: string) => {
+QRCode.toDataURL("https://sfqrco.web.app/" + id, (err, url: string) => {
   err && console.log(err);
   ticketQR.value = url;
 });
