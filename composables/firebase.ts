@@ -67,3 +67,13 @@ const appCheck = initializeAppCheck(app, {
   isTokenAutoRefreshEnabled: true,
 });
 export const useAppCheck = () => appCheck;
+
+import { getRemoteConfig, getValue } from "firebase/remote-config";
+// Initialize Remote Config and get a reference to the service
+const remoteConfig = getRemoteConfig(app);
+remoteConfig.defaultConfig = {
+  gift_exist: false,
+};
+remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+export const useRemoteConfig = () => remoteConfig;
+export const getGiftExist = () => getValue(remoteConfig, "gift_exist");

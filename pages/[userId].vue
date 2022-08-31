@@ -18,15 +18,20 @@ div(ref="wrapper")
       icon="help_outline",
       @click="toggleStampHelp"
     ) スタンプについて
-    .text-center(v-if="stampHelpShown") 校内でスタンプのQRを見つけたら、右上のQRマークより読み込んでください。
+    .text-center(v-if="stampHelpShown") 校内でスタンプのQRを見つけたら、右上の
+      UiIcon qr_code
+      | より読み込んでください。
       br
       | 4つ集めると受付にて景品と交換できます。
   .text-center(v-else) 景品を受け取り済みです
+  .text-center(v-if="giftExist") {{ giftExist }}
 </template>
 
 <script async setup lang="ts">
 import QRCode from "qrcode";
 useUserId().value = useRoute().params["userId"].toString();
+const giftExistBoolean = getGiftExist().asBoolean();
+const giftExist = giftExistBoolean ? "" : "景品はなくなりました";
 const data = await useUserData();
 const wrapper = ref<HTMLDivElement>();
 if (!data.value.temp && isToday()) {
