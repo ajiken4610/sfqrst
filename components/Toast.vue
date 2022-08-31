@@ -7,6 +7,7 @@
     </div>
   </Teleport>
 </template>
+
 <script setup lang="ts">
 const props = defineProps<{ message: string }>();
 const state = reactive({
@@ -55,8 +56,14 @@ watch(
     }
   }
 );
+
+function hide() {
+  state.open = false;
+}
 function show() {
   state.open = true;
+  // hide toast
+  setTimeout(() => hide(), state.options.timeoutMs);
 }
 watch(toRef(props, "message"), () => {
   console.log(props.message);
