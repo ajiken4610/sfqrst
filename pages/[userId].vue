@@ -12,10 +12,15 @@ div(ref="wrapper")
         UiCardContent
           UiCardText.h1.text-center {{ stamps[key].name }}
   .text-center.text-muted(v-else) 所持しているスタンプはありません。
+  UiButton.text-muted.d-block.mx-auto(
+    icon="help_outline",
+    @click="showStampHelp"
+  ) スタンプについて
 </template>
 
 <script async setup lang="ts">
 import QRCode from "qrcode";
+import { useAlert } from "balm-ui";
 useUserId().value = useRoute().params["userId"].toString();
 const data = await useUserData();
 const wrapper = ref<HTMLDivElement>();
@@ -40,6 +45,15 @@ QRCode.toDataURL("https://sfqrco.web.app/" + id, (err, url: string) => {
 useUserId().value = id;
 
 const stamps = await useStamps();
+
+const showStampHelp = () => {
+  useAlert()({
+    // @ts-ignore
+    message:
+      "校内でスタンプのQRを見つけたら、右上のQRマークより読み込んでください。<br>4つ集めると受付にて景品と交換できます。",
+    raw: true,
+  });
+};
 </script>
 
 <style scoped lang="scss"></style>
