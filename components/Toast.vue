@@ -66,7 +66,6 @@ function show() {
   setTimeout(() => hide(), state.options.timeoutMs);
 }
 watch(toRef(props, "message"), () => {
-  console.log(props.message);
   show();
 });
 </script>
