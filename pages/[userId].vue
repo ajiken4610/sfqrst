@@ -13,9 +13,11 @@ div(ref="wrapper")
           UiCardText.h1.text-center {{ stamps[key].name }}
   .text-center.text-muted(v-else) 所持しているスタンプはありません。
   UiButton.text-muted.d-block.mx-auto(
+    v-if="!data.giftReceived",
     icon="help_outline",
     @click="showStampHelp"
   ) スタンプについて
+  .text-center(v-else) 景品を受け取り済みです
 </template>
 
 <script async setup lang="ts">

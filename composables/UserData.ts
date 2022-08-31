@@ -9,4 +9,5 @@ export interface UserData {
   reuseable?: true;
   arriveSchedule?: "am17" | "pm17" | "am18" | "pm18";
   isArriveScheduleConstraint: boolean;
+  giftReceived: boolean;
 }
