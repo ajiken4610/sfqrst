@@ -12,13 +12,11 @@ div
       NuxtLink.float-end(to="/edit", v-if="useUserId().value")
         UiIconButton(:class="toolbarItemClass", icon="edit")
   #content(v-show="showAppTopBar")
-  Toast(:message="toastMessage")
   div(:class="{ container: $route.path !== '/' }")
     NuxtPage
 </template>
 
 <script setup lang="ts">
-const toastMessage = useToastMessage();
 useFirebaseApp();
 const showAppTopBar = computed(() => {
   return !{ "/": true, "/checkin": true, "/checkout": true, "/input": true }[

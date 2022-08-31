@@ -1,5 +1,8 @@
+import { useToast } from "balm-ui";
 let message = ref("");
+
+const toast = useToast();
 export default (newMessage: string) => {
-  message.value = newMessage;
+  toast(newMessage);
 };
 export const useToastMessage = () => message;
