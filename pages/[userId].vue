@@ -31,6 +31,7 @@ div(ref="wrapper")
 import QRCode from "qrcode";
 useUserId().value = useRoute().params["userId"].toString();
 const giftExistBoolean = getGiftExist().asBoolean();
+console.log(giftExistBoolean);
 const giftExist = giftExistBoolean ? "" : "景品はなくなりました";
 const data = await useUserData();
 const wrapper = ref<HTMLDivElement>();

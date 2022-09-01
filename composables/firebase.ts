@@ -68,12 +68,17 @@ const appCheck = initializeAppCheck(app, {
 });
 export const useAppCheck = () => appCheck;
 
-import { getRemoteConfig, getValue } from "firebase/remote-config";
+import {
+  fetchAndActivate,
+  getRemoteConfig,
+  getValue,
+} from "firebase/remote-config";
 // Initialize Remote Config and get a reference to the service
 const remoteConfig = getRemoteConfig(app);
 remoteConfig.defaultConfig = {
-  gift_exist: false,
+  gift_exist: true,
 };
 remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+fetchAndActivate(remoteConfig);
 export const useRemoteConfig = () => remoteConfig;
 export const getGiftExist = () => getValue(remoteConfig, "gift_exist");
