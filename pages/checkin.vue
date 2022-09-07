@@ -108,7 +108,7 @@ const reason = () => {
     }
   } else if (!data.value.temp) {
     return "体温を入力してください";
-  } else if (!((data.value.temp || 1000) < 37.2)) {
+  } else if (!((data.value.temp || 1000) < 37.5)) {
     return "体温が不正です";
   } else if (!data.value.name) {
     return "名前を入力してください";
