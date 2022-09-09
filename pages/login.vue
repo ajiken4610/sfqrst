@@ -16,7 +16,6 @@ onMounted(() => {
   ui.start(element.value, {
     signInOptions: [
       GoogleAuthProvider.PROVIDER_ID,
-      EmailAuthProvider.PROVIDER_ID,
     ],
     signInSuccessUrl: "/admin",
   });
