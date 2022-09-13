@@ -5,7 +5,7 @@ div
   div(ref="element")
 </template>
 <script setup lang="ts">
-import { EmailAuthProvider, GoogleAuthProvider } from "@firebase/auth";
+import { GoogleAuthProvider } from "@firebase/auth";
 
 import "firebaseui/dist/firebaseui.css";
 
@@ -14,9 +14,7 @@ onMounted(() => {
   useAuth().signOut();
   const ui = useUI();
   ui.start(element.value, {
-    signInOptions: [
-      GoogleAuthProvider.PROVIDER_ID,
-    ],
+    signInOptions: [GoogleAuthProvider.PROVIDER_ID],
     signInSuccessUrl: "/admin",
   });
 });

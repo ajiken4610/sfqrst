@@ -59,12 +59,7 @@ if (useRoute().query["q"]) {
   });
 }
 const calTimeRegion = (date: Date) => {
-  return (
-    date.getDate() * 2 +
-    (date.getHours() < 12 || (date.getHours() === 12 && date.getMinutes() < 30)
-      ? 0
-      : 1)
-  );
+  return date.getDate() * 2 + (date.getHours() < 13 ? 0 : 1);
 };
 const judge = () => {
   const reuseable = data.value.reuseable;
