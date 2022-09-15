@@ -23,7 +23,7 @@ div(ref="wrapper")
       | より読み込んでください。
       br
       | 4つ集めると受付にて景品と交換できます。
-  .text-center(v-else) 景品を受け取り済みです
+  .text-center.display-6(v-else) 景品を受け取り済みです
   .text-center(v-if="giftExist") {{ giftExist }}
 </template>
 

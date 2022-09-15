@@ -23,8 +23,13 @@ const buttons = [
   {
     link: "/input",
     title: "情報入力",
-    description: "情報入力用端末にて使用してください。",
+    description: "情報入力用端末にて使用してください",
   },
+  {
+    link:"/gift",
+    title:"景品登録",
+    description:"景品をもらった印をつける際に利用して下さい" 
+  }
 ];
 </script>
 <script setup lang="ts">

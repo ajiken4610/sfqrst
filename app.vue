@@ -19,7 +19,7 @@ div
 <script setup lang="ts">
 useFirebaseApp();
 const showAppTopBar = computed(() => {
-  return !{ "/": true, "/checkin": true, "/checkout": true, "/input": true }[
+  return !{ "/": true, "/checkin": true, "/checkout": true, "/input": true ,"/gift":true}[
     useRoute().path
   ];
 });
