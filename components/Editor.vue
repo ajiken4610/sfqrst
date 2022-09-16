@@ -11,7 +11,8 @@
   UiTextfield.w-100(
     v-if="isToday()",
     v-model.number="data.temp",
-    inputType="number"
+    inputType="number",
+    :step="0.1"
   ) 体温
   .d-flex
     .ms-auto
